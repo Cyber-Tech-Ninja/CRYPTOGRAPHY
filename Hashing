@@ -1,0 +1,23 @@
+A cryptographic hash function is an algorithm that takes data of arbitrary size as its input and returns a fixed size value, called message digest or checksum, as its output. For example, sha256sum calculates the SHA256 (Secure Hash Algorithm 256) message digest. SHA256, as the name indicates, returns a checksum of size 256 bits (32 bytes). This checksum is usually written using hexadecimal digits. Knowing that a hexadecimal digit represents 4 bits, the 256 bits checksum can be represented as 64 hexadecimal digits.
+But why would we need such a function? There are many uses, in particular:
+
+Storing passwords: Instead of storing passwords in plaintext, a hash of the password is stored instead. Consequently, if a data breach occurs, the attacker will get a list of password hashes instead of the original passwords. (In practice, passwords are also “salted”, as discussed in a later task.)
+Detecting modifications: Any minor modification to the original file would lead to a drastic change in hash value, i.e. checksum.
+
+sha256sum file.txt
+
+Some of the hashing algorithms in use and still considered secure are:
+
+SHA224, SHA256, SHA384, SHA512
+RIPEMD160
+Some older hash functions, such as MD5 (Message Digest 5) and SHA-1, are cryptographically broken. By broken, we mean that it is possible to generate a different file with the same checksum as a given file. This means that we can create a hash collision. In other words, an attacker can create a new message with a given checksum, and detecting file or message tampering won’t be possible.
+
+HMAC
+Hash-based message authentication code (HMAC) is a message authentication code (MAC) that uses a cryptographic key in addition to a hash function.
+To calculate the HMAC on a Linux system, you can use any of the available tools such as hmac256 (or sha224hmac, sha256hmac2c34b68669427d15f76a1c06ab941e3e6038dacdfb9209455c87519a3ef2c660, sha384hmac, and sha512hmac, where the secret key is added after the option --key). Below we show an example of calculating the HMAC using hmac256 and sha256hmac with two different keys.
+
+According to RFC2104, HMAC needs:
+
+secret key
+inner pad (ipad) a constant string. (RFC2104 uses the byte 0x36 repeated B times. The value of B depends on the chosen hash function.)
+outer pad (opad) a constant string. (RFC2104 uses the byte 0x5C repeated B times.)
