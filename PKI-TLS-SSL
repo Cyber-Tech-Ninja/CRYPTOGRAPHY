@@ -1,0 +1,23 @@
+Using a key exchange such as the Diffie-Hellman key exchange allows us to agree on a secret key under the eyes and ears of eavesdroppers. This key can be used with a symmetric encryption algorithm to ensure confidential communication. However, the key exchange we described earlier is not immune to Man-in-the-Middle (MITM) attack. The reason is that Alice has no way of ensuring that she is communicating with Bob, and Bob has no way of ensuring that he is communicating with Alice when exchanging the secret key.
+For a certificate to get signed by a certificate authority, we need to:
+
+Generate Certificate Signing Request (CSR): You create a certificate and send your public key to be signed by a third party.
+Send your CSR to a Certificate Authority (CA): The purpose is for the CA to sign your certificate. The alternative and usually insecure solution would be to self-sign your certificate.
+
+You can use openssl to generate a certificate signing request using the command openssl req -new -nodes -newkey rsa:4096 -keyout key.pem -out cert.csr. We used the following options:
+
+req -new create a new certificate signing request
+-nodes save private key without a passphrase
+-newkey generate a new private key
+rsa:4096 generate an RSA key of size 4096 bits
+-keyout specify where to save the key
+-out save the certificate signing request
+
+For testing purposes, we have created a self-signed certificate. For example, the following command will generate a self-signed certificate.
+
+openssl req -x509 -newkey -nodes rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365
+The -x509 indicates that we want to generate a self-signed certificate instead of a certificate request. The -sha256 specifies the use of the SHA-256 digest. It will be valid for one year as we added -days 365.
+
+To answer the questions below, you need to inspect the certificate file cert.pem in the task06 directory. You can use the following command to view your certificate:
+
+openssl x509 -in cert.pem -text
