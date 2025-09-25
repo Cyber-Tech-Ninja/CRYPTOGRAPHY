@@ -1,0 +1,9 @@
+When using an asymmetric encryption algorithm, we would generate a key pair: a public key and a private key. The public key is shared with the world, or more specifically, with the people who want to communicate with us securely. The private key must be saved securely, and we must never let anyone access it. Moreover, it is not feasible to derive the private key despite the knowledge of the public key.
+We executed three commands:
+
+openssl genrsa -out private-key.pem 2048: With openssl, we used genrsa to generate an RSA private key. Using -out, we specified that the resulting private key is saved as private-key.pem. We added 2048 to specify a key size of 2048 bits.
+openssl rsa -in private-key.pem -pubout -out public-key.pem: Using openssl, we specified that we are using the RSA algorithm with the rsa option. We specified that we wanted to get the public key using -pubout. Finally, we set the private key as input using -in private-key.pem and saved the output using -out public-key.pem.
+openssl rsa -in private-key.pem -text -noout: We are curious to see real RSA variables, so we used -text -noout. The values of p, q, N, e, and d are prime1, prime2, modulus, publicExponent, and privateExponent, respectively.
+If we already have the recipient’s public key, we can encrypt it with the command openssl pkeyutl -encrypt -in plaintext.txt -out ciphertext -inkey public-key.pem -pubin
+
+The recipient can decrypt it using the command openssl pkeyutl -decrypt -in ciphertext -inkey private-key.pem -out decrypted.txt
