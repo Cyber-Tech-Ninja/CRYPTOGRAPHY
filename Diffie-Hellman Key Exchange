@@ -1,0 +1,3 @@
+Let’s take a look at actual Diffie-Hellman parameters. We can use openssl to generate them; we need to specify the option dhparam to indicate that we want to generate Diffie-Hellman parameters along with the specified size in bits, such as 2048 or 4096.
+
+In the console output below, we can view the prime number P and the generator G using the command openssl dhparam -in dhparams.pem -text -noout. (This is similar to what we did with the RSA private key.)
